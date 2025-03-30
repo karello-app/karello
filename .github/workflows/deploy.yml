@@ -6,9 +6,8 @@ on:
       - main  # Change this if your main branch has a different name
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write  # Allow write access to repository contents
+  pages: write     # Allow writing to GitHub Pages
 
 jobs:
   build-deploy:
@@ -32,5 +31,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_TOKEN }}  # Use the Personal Access Token
           publish_dir: ./dist
