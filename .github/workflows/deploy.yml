@@ -1,17 +1,19 @@
-name: Deploy to GitHub Pages
+name: Deploy React App to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Change this if your main branch has a different name
+      - main  # Change if your default branch is different
 
 permissions:
-  contents: write  # Allow write access to repository contents
-  pages: write     # Allow writing to GitHub Pages
+  contents: write  # Necessary for deployment
+  pages: write
+  id-token: write
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -26,10 +28,11 @@ jobs:
         run: npm install
 
       - name: Build Project
-        run: npm run build
+        run: npm run build  # If using CRA, change to `npm run build`
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.GH_TOKEN }}  # Use the Personal Access Token
-          publish_dir: ./dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # Change to `./build` if using CRA
+          cname: your-custom-domain.com  # Your custom domain
